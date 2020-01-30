@@ -1,23 +1,23 @@
 import React from 'react';
 import axios from  'axios'
-import Usercard from "./components/Usecard";
-import FollowersCard from "./components/FollowersCard";
+// import PlayerList from './components/PlayersList'
 import DarkMode from './components/DarkMode'
 import './App.css';
+import Playercard from './components/PlayerCard';
 
 class App extends React.Component {
   
   state = {
-    followersList: [],
+    playersData: [],
   };
 
   componentDidMount() {
-    axios
-      .get("https://api.github.com/users/DelfinMong/followers")
+    fetch('http://localhost:5000/api/players')
+      .then(data => data.json()) 
       .then(res => {
-        console.log("Followers API: ", res);
+        console.log("Players API: ", res);
         this.setState({
-          followersList: res.data,
+          playersData: res
         });
       })
       .catch(err => console.log("have an error", err));
@@ -26,11 +26,16 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Usercard login={this.state.login} img={this.state.img} />
+         <h1>World Cup</h1>
          <DarkMode />
-        {this.state.followersList.map(item => {
-          return <FollowersCard login={item.login} img={item.avatar_url} />;
-        })}
+         <div>
+           {this.state.playersData.map( player => {
+             return (<Playercard  
+                 name={player.name} country={player.country} searches={player.searches}key={player.id}
+            />
+           )})}
+         </div>
+         {/* <PlayerList players={this.state.playersData} /> */}
       </div>
     );
   }
@@ -38,26 +43,4 @@ class App extends React.Component {
 }
 
 export default App;
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
 

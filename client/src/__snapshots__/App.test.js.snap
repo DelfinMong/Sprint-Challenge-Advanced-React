@@ -2,12 +2,10 @@
 
 exports[`renders correctly when there are no items 1`] = `
 <div>
-  <h1>
-    Followers
-  </h1>
+  <h1 />
   <p />
-  <img
-    alt="avatar"
-  />
+  <p>
+    Searches: 
+  </p>
 </div>
 `;
